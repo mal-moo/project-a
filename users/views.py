@@ -50,7 +50,7 @@ def user_password():
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
-    return '200'
+    return resp_form(HTTPStatus.OK, '')
 
 
 @app.route('/signup', methods=["POST"])
@@ -104,7 +104,7 @@ def login():
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     
     if not result:
-        return err_resp_form(HTTPStatus.BAD_REQUEST, 'Invalid Paramaters')
+        return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
     
     access_token = create_access_token(identity = {'user_id': result['user_id']},
                                         expires_delta = timedelta(minutes=60 * 60 * 24))

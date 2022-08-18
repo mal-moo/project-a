@@ -4,7 +4,6 @@ from flask_jwt_extended import JWTManager
 from .settings import DATABASE, JWT
 
 app = Flask(__name__)
-#app.config.from_object('config')
 app.config.update(
     DEBUG = True,
     JWT_SECRET_KEY = JWT['SECRET_KEY']
@@ -36,13 +35,7 @@ class DBConnectionManager:
 
     def close(self):
         self.conn.close()
-
-    # def __del__(self):
-    #     print(222, self.conn)
-    #     if self.conn is not None:
-    #         self.conn.close()
-    
-
+        
 
 import users.views
 import auth.views
