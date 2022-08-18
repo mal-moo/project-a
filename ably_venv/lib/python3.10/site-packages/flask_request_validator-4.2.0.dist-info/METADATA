@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: flask-request-validator
+Version: 4.2.0
+Summary: Flask request data validation
+Home-page: https://github.com/d-ganchar/flask_request_validator
+Author: Danila Ganchar
+Author-email: danila.ganchar@gmail.com
+License: MIT
+Keywords: flask request validation
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Framework :: Flask
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Dist: flask
+
+Flask Request Validator
+=======================
+
+Simply request validator for Flask. See `readme`_
+
+Installation
+------------
+
+    $ pip install flask_request_validator
+
+.. _readme: https://github.com/d-ganchar/flask_request_validator
+
+
