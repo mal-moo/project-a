@@ -11,30 +11,30 @@ app.config.update(
 
 jwt = JWTManager(app)
 
-class DBConnectionManager:    
+class DBConnector:    
     def __init__(self):
         self.host = DATABASE['HOST']
         self.user = DATABASE['USER']
         self.password = DATABASE['PASSWORD']
         self.port = DATABASE['PORT']
         self.name = DATABASE['NAME']
-        self.conn = ''
+        self.connect()
 
     def connect(self):
         try:
-            self.conn = pymysql.connect(host=self.host,
-                                user=self.user,
-                                password=self.password,
-                                database=self.name,
-                                charset='utf8mb4',
-                                cursorclass=pymysql.cursors.DictCursor)
+            self.connection = pymysql.connect(
+                            host=self.host,
+                            user=self.user,
+                            password=self.password,
+                            database=self.name,
+                            charset='utf8mb4',
+                            cursorclass=pymysql.cursors.DictCursor
+                        )
         except Exception as e:
-            print(111, e)
+            print(e)
 
-        return self.conn
-
-    def close(self):
-        self.conn.close()
+    def __del__(self):
+        self.connection.close()
         
 
 import users.views

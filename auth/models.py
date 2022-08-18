@@ -1,4 +1,4 @@
-from config import DBConnectionManager
+from config import DBConnector
 
 """
 CREATE TABLE `auth_phone` (
@@ -15,14 +15,13 @@ def insert_auth_code(phone: str, auth_code: int) -> bool:
     is_success = True
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'INSERT INTO auth_phone(`phone`, `auth_code`) VALUES (%s, %s) \
                     ON DUPLICATE KEY UPDATE auth_code = %s, create_date = CURRENT_TIMESTAMP;'
             curs.execute(sql, (phone, auth_code, auth_code,))
         conn.commit()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False
@@ -35,13 +34,12 @@ def select_auth_code(phone: str, auth_code: int) -> tuple[bool, dict]:
     result = {}
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'SELECT create_date FROM auth_phone WHERE phone = %s AND auth_code = %s;'
             curs.execute(sql, (phone, auth_code,))
             result = curs.fetchone()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False

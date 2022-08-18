@@ -1,4 +1,4 @@
-from config import DBConnectionManager
+from config import DBConnector
 
 """
 CREATE TABLE `user` (
@@ -21,14 +21,13 @@ def insert_user(email: str, password: str, name: str, nickname: str, phone: str)
     err_code = 0
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'INSERT INTO user(`email`, `password`, `name`, `nickname`, `phone`) \
                     VALUES (%s, SHA2(%s, 256), %s, %s, %s);'
             curs.execute(sql, (email, password, name, nickname, phone,))
         conn.commit()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False
@@ -42,14 +41,13 @@ def update_user_by_password(email: str, password: str) -> tuple[bool, int]:
     err_code = 0
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'UPDATE user SET password = sha2(%s, 256), update_date = CURRENT_TIMESTAMP \
                     WHERE email = %s;'
             curs.execute(sql, (password, email,))
         conn.commit()
-        dbm.close()
     except Exception as e:
         print(e)
         err_code = e.args[0]
@@ -63,13 +61,12 @@ def select_user_by_email_and_password(email: str, password: str) -> tuple[bool, 
     result = {}
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'SELECT * FROM user WHERE email = %s and password = sha2(%s, 256);'
             curs.execute(sql, (email, password,))
             result = curs.fetchone()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False
@@ -82,13 +79,12 @@ def select_user_by_id(user_id: int) -> tuple[bool, dict]:
     result = {}
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'SELECT * FROM user WHERE user_id = %s;'
             curs.execute(sql, user_id)
             result = curs.fetchone()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False
@@ -101,13 +97,12 @@ def select_user_by_email(email: str) -> tuple[bool, dict]:
     result = {}
     
     try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
+        dc = DBConnector()
+        conn = dc.connection
         with conn.cursor() as curs:
             sql = 'SELECT * FROM user WHERE email = %s;'
             curs.execute(sql, email)
             result = curs.fetchone()
-        dbm.close()
     except Exception as e:
         print(e)
         is_success = False
