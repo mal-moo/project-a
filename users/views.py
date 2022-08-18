@@ -107,7 +107,7 @@ def login():
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
     
     access_token = create_access_token(identity = {'user_id': result['user_id']},
-                                        expires_delta = timedelta(minutes=60 * 60 * 24))
+                                        expires_delta = timedelta(minutes=60 * 24))
     return resp_form(HTTPStatus.OK, {
         'access_token': access_token
     })

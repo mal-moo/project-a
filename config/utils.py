@@ -33,14 +33,14 @@ def is_validated_phone(phone):
 
 def is_validated_name(name):
     if len(name) > 0 and len(name) <= 20:
-        return re.search('([ㄱ-힣a-zA-Z])', name)
+        return re.search('^[가-힣]{2,10}$', name)
     else:
         return None
 
 
 def is_validated_nickname(nickname):
     if len(nickname) > 0 and len(nickname) <= 20:
-        return re.search('([ㄱ-힣a-zA-Z0-9])', nickname)
+        return re.search('^[ㄱ-힣a-zA-Z0-9]{1,20}$', nickname)
     else:
         return None
 
