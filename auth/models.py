@@ -11,7 +11,7 @@ CREATE TABLE `auth_phone` (
 )
 """
 
-def insert_auth_code(phone, auth_code):
+def insert_auth_code(phone: str, auth_code: int) -> bool:
     is_success = True
     
     try:
@@ -24,13 +24,13 @@ def insert_auth_code(phone, auth_code):
         conn.commit()
         dbm.close()
     except Exception as e:
-        #err_code = e.args[0]
+        print(e)
         is_success = False
 
-    return is_success#, err_code
+    return is_success
 
 
-def select_auth_code(phone, auth_code):
+def select_auth_code(phone: str, auth_code: int) -> tuple[bool, dict]:
     is_success = True
     result = {}
     

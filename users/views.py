@@ -1,6 +1,6 @@
 from datetime import timedelta
 from http import HTTPStatus
-from flask import request
+from flask import request, Response
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 
 from config import app
@@ -12,7 +12,7 @@ from .models import *
 
 @app.route('/user/password', methods=["PUT"])
 @jwt_required()
-def user_password():
+def user_password() -> tuple[Response, int]:
     jwt_identity = get_jwt_identity()
     if jwt_identity and 'is_auth' in jwt_identity:
         if not jwt_identity['is_auth']:
@@ -26,7 +26,6 @@ def user_password():
     except KeyError:
         return err_resp_form(HTTPStatus.BAD_REQUEST, 'Missing Paramaters')
 
-    # 파라미터 검증
     if not is_validated_password(password) or not is_validated_email(email):
         return err_resp_form(HTTPStatus.BAD_REQUEST, 'Invalid Paramaters')
 
@@ -44,16 +43,19 @@ def user_password():
     if user_info:
         return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
     
-    is_suc = update_user_by_password(email, password)
+    is_suc, err_code = update_user_by_password(email, password)
     if not is_suc:
-        return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
+        if err_code == 1062:
+            return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
+        else:
+            return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
     return resp_form(HTTPStatus.OK, '')
 
 
 @app.route('/signup', methods=["POST"])
-@jwt_required()
-def sign_up():
+@jwt_required() 
+def sign_up() -> tuple[Response, int]:
     jwt_identity = get_jwt_identity()
     if jwt_identity and 'is_auth' in jwt_identity:
         if not jwt_identity['is_auth']:
@@ -87,7 +89,7 @@ def sign_up():
     
 
 @app.route("/login", methods=['POST'])
-def login():
+def login() -> tuple[Response, int]:
     try:
         email = request.form['email']
         password = request.form['password']
@@ -112,7 +114,7 @@ def login():
 
 @app.route('/user', methods=["GET"])
 @jwt_required()
-def user_info():
+def user_info() -> tuple[Response, int]:
     jwt_identity = get_jwt_identity()
     if not jwt_identity or not 'user_id' in jwt_identity:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')

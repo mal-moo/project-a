@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
-from flask import request
-from flask_jwt_extended import create_access_token
 from http import HTTPStatus
+from flask import request, Response
+from flask_jwt_extended import create_access_token
 
 from config import app
 from config.settings import JWT
@@ -11,7 +11,7 @@ from .models import *
 
 
 @app.route('/auth', methods=['POST', 'GET'])
-def auth_phone():
+def auth_phone() -> tuple[Response, int]:
     if 'Authorization' in request.headers:
         return err_resp_form(HTTPStatus.UNAUTHORIZED, 'Login Not Required')
     

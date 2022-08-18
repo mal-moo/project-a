@@ -1,11 +1,11 @@
 import re
-from flask import jsonify
+from flask import jsonify, Response
 from random import randint
 from password_strength import PasswordPolicy
 from email_validator import validate_email, EmailNotValidError
 
 
-def is_validated_password(password):
+def is_validated_password(password: str) -> bool:
     policy = PasswordPolicy.from_names(
                             length=8,
                             uppercase=1,
@@ -15,7 +15,7 @@ def is_validated_password(password):
     return not policy.test(password)
 
 
-def is_validated_email(email):
+def is_validated_email(email: str) -> bool:
     is_validate = True
     try:
         email = validate_email(email).email
@@ -27,18 +27,18 @@ def is_validated_email(email):
     return is_validate
 
 
-def is_validated_phone(phone):
+def is_validated_phone(phone: str) -> bool:
     return re.search('^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$', phone)
     
 
-def is_validated_name(name):
+def is_validated_name(name: str) -> bool:
     if len(name) > 0 and len(name) <= 20:
         return re.search('^[가-힣]{2,10}$', name)
     else:
         return None
 
 
-def is_validated_nickname(nickname):
+def is_validated_nickname(nickname: str) -> bool:
     if len(nickname) > 0 and len(nickname) <= 20:
         return re.search('^[ㄱ-힣a-zA-Z0-9]{1,20}$', nickname)
     else:
@@ -53,14 +53,14 @@ def call_sms_submit_api():
     return True
 
 
-def err_resp_form(status_code, message):
+def err_resp_form(status_code: int, message: str) -> tuple[Response, int]:
     form = {
         'msg': message,
     }
     return jsonify(form), status_code
 
 
-def resp_form(status_code, data):
+def resp_form(status_code: int, data: dict) -> tuple[Response, int]:
     form = {
         'data': data,
     }

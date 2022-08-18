@@ -14,48 +14,11 @@ CREATE TABLE `user` (
     UNIQUE (`email`, `nickname`)
 )
 """
-
-def select_user_by_id(user_id):
-    is_success = True
-    result = {}
-    
-    try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
-        with conn.cursor() as curs:
-            sql = 'SELECT * FROM user WHERE user_id = %s;'
-            curs.execute(sql, user_id)
-            result = curs.fetchone()
-        dbm.close()
-    except Exception as e:
-        print(e)
-        is_success = False
-
-    return is_success, result
-
-
-def select_user_by_email(email):
-    is_success = True
-    result = {}
-    
-    try:
-        dbm = DBConnectionManager()
-        conn = dbm.connect()
-        with conn.cursor() as curs:
-            sql = 'SELECT * FROM user WHERE email = %s;'
-            curs.execute(sql, email)
-            result = curs.fetchone()
-        dbm.close()
-    except Exception as e:
-        print(e)
-        is_success = False
-
-    return is_success, result
   
 
-def insert_user(email, password, name, nickname, phone):
+def insert_user(email: str, password: str, name: str, nickname: str, phone: str) -> tuple[bool, int]:
     is_success = True
-    error_code = 0
+    err_code = 0
     
     try:
         dbm = DBConnectionManager()
@@ -69,13 +32,14 @@ def insert_user(email, password, name, nickname, phone):
     except Exception as e:
         print(e)
         is_success = False
-        error_code = e.args[0]
+        err_code = e.args[0]
 
-    return is_success, error_code
+    return is_success, err_code
 
 
-def update_user_by_password(email, password):
+def update_user_by_password(email: str, password: str) -> tuple[bool, int]:
     is_success = True
+    err_code = 0
     
     try:
         dbm = DBConnectionManager()
@@ -88,12 +52,13 @@ def update_user_by_password(email, password):
         dbm.close()
     except Exception as e:
         print(e)
+        err_code = e.args[0]
         is_success = False
 
-    return is_success
+    return is_success, err_code
 
 
-def select_user_by_email_and_password(email, password):
+def select_user_by_email_and_password(email: str, password: str) -> tuple[bool, dict]:
     is_success = True
     result = {}
     
@@ -112,3 +77,39 @@ def select_user_by_email_and_password(email, password):
     return is_success, result
   
     
+def select_user_by_id(user_id: int) -> tuple[bool, dict]:
+    is_success = True
+    result = {}
+    
+    try:
+        dbm = DBConnectionManager()
+        conn = dbm.connect()
+        with conn.cursor() as curs:
+            sql = 'SELECT * FROM user WHERE user_id = %s;'
+            curs.execute(sql, user_id)
+            result = curs.fetchone()
+        dbm.close()
+    except Exception as e:
+        print(e)
+        is_success = False
+
+    return is_success, result
+
+
+def select_user_by_email(email: str) -> tuple[bool, dict]:
+    is_success = True
+    result = {}
+    
+    try:
+        dbm = DBConnectionManager()
+        conn = dbm.connect()
+        with conn.cursor() as curs:
+            sql = 'SELECT * FROM user WHERE email = %s;'
+            curs.execute(sql, email)
+            result = curs.fetchone()
+        dbm.close()
+    except Exception as e:
+        print(e)
+        is_success = False
+
+    return is_success, result
