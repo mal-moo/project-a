@@ -19,7 +19,7 @@ def insert_auth_code(phone, auth_code):
         conn = dbm.connect()
         with conn.cursor() as curs:
             sql = 'INSERT INTO auth_phone(`phone`, `auth_code`) VALUES (%s, %s) \
-                    on duplicate key update auth_code = %s, create_date = CURRENT_TIMESTAMP;'
+                    ON DUPLICATE KEY UPDATE auth_code = %s, create_date = CURRENT_TIMESTAMP;'
             curs.execute(sql, (phone, auth_code, auth_code,))
         conn.commit()
         dbm.close()
@@ -38,7 +38,7 @@ def select_auth_code(phone, auth_code):
         dbm = DBConnectionManager()
         conn = dbm.connect()
         with conn.cursor() as curs:
-            sql = 'select create_date from auth_phone where phone = %s and auth_code = %s';
+            sql = 'SELECT create_date FROM auth_phone WHERE phone = %s AND auth_code = %s;'
             curs.execute(sql, (phone, auth_code,))
             result = curs.fetchone()
         dbm.close()

@@ -7,5 +7,9 @@ DATABASE = {
 }
 
 JWT = {
-    "SECRET_KEY": "MALMOO"  
+    "SECRET_KEY": "MALMOO",
+    "EXPIRES_IN": {
+        "AUTH": 6,
+        "USER": 60 * 24
+    }
 }

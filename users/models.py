@@ -23,7 +23,7 @@ def select_user_by_id(user_id):
         dbm = DBConnectionManager()
         conn = dbm.connect()
         with conn.cursor() as curs:
-            sql = 'select * from user where user_id = %s'
+            sql = 'SELECT * FROM user WHERE user_id = %s;'
             curs.execute(sql, user_id)
             result = curs.fetchone()
         dbm.close()
@@ -42,7 +42,7 @@ def select_user_by_email(email):
         dbm = DBConnectionManager()
         conn = dbm.connect()
         with conn.cursor() as curs:
-            sql = 'select * from user where email = %s'
+            sql = 'SELECT * FROM user WHERE email = %s;'
             curs.execute(sql, email)
             result = curs.fetchone()
         dbm.close()
@@ -101,7 +101,7 @@ def select_user_by_email_and_password(email, password):
         dbm = DBConnectionManager()
         conn = dbm.connect()
         with conn.cursor() as curs:
-            sql = 'select * from user where email = %s and password = sha2(%s, 256);'
+            sql = 'SELECT * FROM user WHERE email = %s and password = sha2(%s, 256);'
             curs.execute(sql, (email, password,))
             result = curs.fetchone()
         dbm.close()
