@@ -28,7 +28,7 @@ CREATE TABLE `auth_phone` (
   `auth_code` varchar(4) NOT NULL COMMENT '휴대전화 인증번호 4자리',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
   PRIMARY KEY (`auth_phone_id`),
-  UNIQUE KEY `phone` (`phone`)
+  UNIQUE KEY (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,7 +58,7 @@ CREATE TABLE `user` (
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `email` (`email`,`nickname`)
+  UNIQUE KEY (`email`,`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

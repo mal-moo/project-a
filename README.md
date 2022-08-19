@@ -37,7 +37,7 @@ MacOS 12.2 (arm64)
 ```
 2. Install Python Package
 ```
-% pip install requirements.txt
+% pip install -r requirements.txt
 ```
 3. MySQL Schema Import and Create User
 ```

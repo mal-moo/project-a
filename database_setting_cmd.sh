@@ -20,8 +20,8 @@ mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
 echo "[USER] Created !"
 
 echo "[TABLE] Starting ..."
-mysql -uroot -p${rootpasswd} ably < ably_table_schema.sql
-mysql -uroot -p${rootpasswd} test_ably < ably_table_schema.sql
+mysql -uroot -p${rootpasswd} ably < database_table_schema.sql
+mysql -uroot -p${rootpasswd} test_ably < database_table_schema.sql
 echo "[TABLE] Done !"
 
 echo "MySQL Setting Done !"
