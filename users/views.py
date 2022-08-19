@@ -35,10 +35,10 @@ def user_password() -> tuple[Response, int]:
     if not user_id:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
 
-    is_suc, user_id = select_user_id_by_email_and_password(user_id['user_id'], password)
+    is_suc, dupl_user_id = select_user_id_by_email_and_password(email, password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
-    if user_id:
+    if dupl_user_id:
         return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
     
     is_suc = update_user_by_password(user_id['user_id'], password)
