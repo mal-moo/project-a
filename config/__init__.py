@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['TESTING'] = True
 
 if app.config['TESTING']:
-    from .test_settings import DATABASE, JWT
+    from tests.test_settings import DATABASE, JWT
     print(' * [TEST MODE]')
 else:
     from .settings import DATABASE, JWT

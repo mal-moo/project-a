@@ -7,7 +7,7 @@ DATABASE = {
 }
 
 JWT = {
-    "SECRET_KEY": "ably_project",
+    "SECRET_KEY": "test_ably",
     "EXPIRES_IN": {
         "AUTH": 6,
         "USER": 60 * 24

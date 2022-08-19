@@ -1,6 +1,3 @@
-
-
-
 from datetime import timedelta
 from http import HTTPStatus
 from flask_jwt_extended import create_access_token

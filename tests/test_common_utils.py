@@ -1,4 +1,4 @@
-from .utils import *
+from common.utils import *
 
 
 def test_is_validated_nickname():
