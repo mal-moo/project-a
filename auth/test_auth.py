@@ -2,10 +2,6 @@ from config import app
 import pytest
 import json
 
-# @pytest.fixture
-# def api():
-#     app.config['TEST'] = True
-#     return api
 
 @pytest.fixture
 def client():

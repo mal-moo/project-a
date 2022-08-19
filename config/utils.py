@@ -62,6 +62,7 @@ def err_resp_form(status_code: int, message: str) -> tuple[Response, int]:
 
 def resp_form(status_code: int, data: dict) -> tuple[Response, int]:
     form = {
+        'msg': 'success',
         'data': data,
     }
     return jsonify(form), status_code

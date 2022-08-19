@@ -29,19 +29,19 @@ def user_password() -> tuple[Response, int]:
     if not is_validated_password(password) or not is_validated_email(email):
         return err_resp_form(HTTPStatus.BAD_REQUEST, 'Invalid Paramaters')
 
-    is_suc, user_cnt = select_user_cnt_by_email(email)
+    is_suc, user_id = select_user_id_by_email(email)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
-    if not user_cnt:
+    if not user_id:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
 
-    is_suc, user_info = select_user_id_by_email_and_password(email, password)
+    is_suc, user_cnt = select_user_cnt_by_id_and_password(user_id['user_id'], password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
-    if user_info:
+    if user_cnt:
         return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
     
-    is_suc = update_user_by_password(user_info['user_id'], password)
+    is_suc = update_user_by_password(user_id['user_id'], password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
