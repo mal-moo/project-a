@@ -1,4 +1,4 @@
 __pycache__/
 *_venv/
-*settins.py
+*settings.py
 database_setting_cmd.sh

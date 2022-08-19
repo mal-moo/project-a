@@ -56,3 +56,40 @@ Hello, Project-a !
 ```
 % pytest tests/*
 ```
+
+## 프로젝트 디렉터리 구조
+```
+.
+├── README.md
+├── auth
+│   ├── __init__.py
+│   ├── models.py
+│   ├── services.py
+│   └── views.py
+├── common
+│   ├── __init__.py
+│   └── utils.py
+├── config
+│   ├── __init__.py
+│   └── settings.py
+├── requirements.txt
+├── run.py
+├── tests
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_auth
+│   │   ├── test_auth_models.py
+│   │   └── test_auth_views.py
+│   ├── test_common
+│   │   └── test_utils.py
+│   ├── test_settings.py
+│   └── test_users
+│       ├── test_users_models.py
+│       └── test_users_views.py
+└── users
+    ├── __init__.py
+    ├── models.py
+    ├── services.py
+    └── views.py
+
+```
