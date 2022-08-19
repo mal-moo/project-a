@@ -46,7 +46,7 @@ MacOS 12.2 (arm64)
 ```
 3. MySQL Schema Import and Create User
 ```
-% bash database_setting_cmd.sh
+% bash database_setting_cmd.sh  // 비공개 파일
 ```
 4. Run Web Application
 ```
