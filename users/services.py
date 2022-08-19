@@ -2,7 +2,6 @@ from datetime import timedelta
 from http import HTTPStatus
 from flask import Response
 from flask_jwt_extended import create_access_token
-
 from common.utils import err_resp_form, resp_form
 from config.settings import JWT
 from .models import *

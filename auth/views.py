@@ -1,6 +1,5 @@
 from http import HTTPStatus
 from flask import request, Response
-
 from config import app
 from config.settings import JWT
 from common.utils import is_validated_phone, err_resp_form

@@ -1,7 +1,6 @@
 from http import HTTPStatus
 from flask import request, Response
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
 from config import app
 from common.utils import is_validated_email, is_validated_name, is_validated_password, \
                         is_validated_phone, is_validated_nickname, err_resp_form

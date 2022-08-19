@@ -2,10 +2,9 @@ from datetime import datetime, timedelta
 from http import HTTPStatus
 from flask import Response
 from flask_jwt_extended import create_access_token
-
-from auth.models import insert_auth_code, select_auth_code
-from common.utils import call_sms_submit_api, err_resp_form, make_auth_code, resp_form
 from config.settings import JWT
+from common.utils import call_sms_submit_api, err_resp_form, make_auth_code, resp_form
+from .models import insert_auth_code, select_auth_code
 
 
 def create_auth_code_service(phone: str) -> tuple[Response, int]:
