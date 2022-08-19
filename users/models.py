@@ -17,6 +17,9 @@ CREATE TABLE `user` (
   
 
 def insert_user(email: str, password: str, name: str, nickname: str, phone: str) -> tuple[bool, int]:
+    """
+        Insert Data in `user` Table
+    """
 
     is_success = True
     err_code = 0
@@ -38,6 +41,9 @@ def insert_user(email: str, password: str, name: str, nickname: str, phone: str)
 
 
 def update_user_by_password(user_id: int, password: str) -> tuple[bool, int]:
+    """
+        Update `password` matched `user_id` in `user` Table
+    """
     is_success = True
     
     try:
@@ -56,6 +62,9 @@ def update_user_by_password(user_id: int, password: str) -> tuple[bool, int]:
 
 
 def select_user_id_by_email_and_password(email: str, password: str) -> tuple[bool, dict]:
+    """
+        Select `user_id` matched `email` and `password` in `user` Table
+    """
     is_success = True
     result = {}
     
@@ -74,6 +83,10 @@ def select_user_id_by_email_and_password(email: str, password: str) -> tuple[boo
   
     
 def select_user_info_by_id(user_id: int) -> tuple[bool, dict]:
+    """
+        Select `name`, `nickname`, `phone`, `email`, `create_date`, `update_date` 
+        matched `user_id` in `user` Table
+    """
     is_success = True
     result = {}
     
@@ -92,6 +105,9 @@ def select_user_info_by_id(user_id: int) -> tuple[bool, dict]:
 
 
 def select_user_id_by_email(email: str) -> tuple[bool, dict]:
+    """
+        Select `user_id` matched `email` in `user` Table
+    """
     is_success = True
     result = {}
     

@@ -12,6 +12,9 @@ CREATE TABLE `auth_phone` (
 """
 
 def insert_auth_code(phone: str, auth_code: int) -> bool:
+    """
+        Insert Data in `auth_phone` Table
+    """
     is_success = True
     
     try:
@@ -30,6 +33,9 @@ def insert_auth_code(phone: str, auth_code: int) -> bool:
 
 
 def select_auth_code(phone: str, auth_code: int) -> tuple[bool, dict]:
+    """
+        Select `create_date` matched `phone` and `auth_code` in `auth_phone` Table
+    """
     is_success = True
     result = {}
     

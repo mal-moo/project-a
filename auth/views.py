@@ -12,6 +12,42 @@ from .models import *
 
 @app.route('/auth', methods=['POST', 'GET'])
 def auth_phone() -> tuple[Response, int]:
+    """
+    This is authentication of client's phone API
+    ---
+    tags:
+      - Authentication of Phone API
+    parameters:
+      - name: phone
+        in: query(GET), form(POST)
+        type: str
+        required: True
+        description: phone number
+        example: 01012341234
+      - name: code
+        in: query
+        type: int
+        required: True
+        description: 4-digit auth code
+        example: 1234
+    responses:
+      500:
+        description: 'Internal Server Error'
+      401:
+        description: 1. 'Login Not Required'
+                     2. 'Unauthorized'
+                     3. 'Authcode has been revoked'
+      400:
+        description: 1. 'Missing Paramaters'
+                     2. 'Invalid Parameters'
+      201:
+        description: Successful creation of auth code
+        schema:
+          {
+            'msg': 'success',
+            'data': {}
+          }
+    """
     if 'Authorization' in request.headers:
         return err_resp_form(HTTPStatus.UNAUTHORIZED, 'Login Not Required')
     
@@ -55,7 +91,7 @@ def auth_phone() -> tuple[Response, int]:
         if (datetime.now() - auth_info['create_date']).total_seconds() < 300:
             access_token = create_access_token(identity = {'is_auth': True},
                                             expires_delta = timedelta(minutes=JWT['EXPIRES_IN']['AUTH']))
-            return resp_form(HTTPStatus.CREATED, {
+            return resp_form(HTTPStatus.OK, {
                 'access_token': access_token
             })
         else:
