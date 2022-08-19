@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from http import HTTPStatus
+from flask import Response
 from flask_jwt_extended import create_access_token
 
 from auth.models import insert_auth_code, select_auth_code
@@ -7,7 +8,7 @@ from common.utils import call_sms_submit_api, err_resp_form, make_auth_code, res
 from config.settings import JWT
 
 
-def create_auth_code_service(phone):
+def create_auth_code_service(phone: str) -> tuple[Response, int]:
     auth_code = make_auth_code()
     is_suc = insert_auth_code(phone, auth_code)
 
@@ -21,7 +22,7 @@ def create_auth_code_service(phone):
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
 
-def check_auth_code_service(phone, auth_code):
+def check_auth_code_service(phone: str, auth_code: int) -> tuple[Response, int]:
     is_suc, auth_info = select_auth_code(phone, auth_code)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')

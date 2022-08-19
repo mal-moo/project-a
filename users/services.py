@@ -1,5 +1,6 @@
 from datetime import timedelta
 from http import HTTPStatus
+from flask import Response
 from flask_jwt_extended import create_access_token
 
 from common.utils import err_resp_form, resp_form
@@ -7,7 +8,7 @@ from config.settings import JWT
 from .models import *
 
 
-def reset_user_password_service(email, password):
+def reset_user_password_service(email: str, password: str) -> tuple[Response, int]:
     is_suc, user_id = select_user_id_by_email(email)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
@@ -27,7 +28,8 @@ def reset_user_password_service(email, password):
     return resp_form(HTTPStatus.OK, {})
 
 
-def user_sign_up_service(email, password, name, nickname, phone):
+def user_sign_up_service(email: str, password: str, name: str, nickname: str, phone: str) \
+                                                                    -> tuple[Response, int]:
     is_suc, err_code = insert_user(email, password, name, nickname, phone)
     
     if not is_suc:
@@ -39,7 +41,7 @@ def user_sign_up_service(email, password, name, nickname, phone):
     return resp_form(HTTPStatus.CREATED, {})
 
 
-def user_login_service(email, password):
+def user_login_service(email: str, password: str) -> tuple[Response, int]:
     is_suc, user_info = select_user_id_by_email_and_password(email, password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
@@ -52,7 +54,7 @@ def user_login_service(email, password):
         'access_token': access_token
     })
 
-def user_info_service(user_id):
+def user_info_service(user_id: int) -> tuple[Response, int]:
     is_suc, user_info = select_user_info_by_id(user_id)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')

@@ -3,6 +3,8 @@ from common.utils import *
 
 def test_is_validated_nickname():
     invalid_nicknames= [
+        None,
+        '',
         'nick_name',
         'nicknamelenthtestdata',
     ]
@@ -15,6 +17,8 @@ def test_is_validated_nickname():
 
 def test_is_validated_name():
     invalid_names= [
+        None,
+        '',
         '!!!',
         '123',
         'name1',
@@ -31,6 +35,8 @@ def test_is_validated_name():
 
 def test_is_validated_email():
     invalid_emails= [
+        None,
+        '',
         'test@test.test',
         'test',
         'gmail.com',
@@ -44,6 +50,8 @@ def test_is_validated_email():
 
 def test_is_validated_phone():
     invalid_phones= [
+        None,
+        '',
         '0123',
         '010-1234-1234',
         '01312341234',
@@ -61,6 +69,8 @@ def test_is_validated_phone():
 
 def test_is_validated_password():
     invalid_password= [
+        None,
+        '',
         'test',
         'testpasswd',
         'testpasswd0',

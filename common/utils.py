@@ -17,6 +17,9 @@ def is_validated_password(password: str) -> bool:
         3. one or more digits
         4. one or more special characters
     """
+    if not password:
+        return False
+
     policy = PasswordPolicy.from_names(
                             length=8,
                             uppercase=1,
@@ -33,13 +36,14 @@ def is_validated_email(email: str) -> bool:
     Usage
         'email_validator' library
     """
-    is_validate = True
-    try:
-        email = validate_email(email).email
-        
-    except EmailNotValidError as e:
-        print(str(e))
-        is_validate = False
+    is_validate = False
+    if email:
+        try:
+            email = validate_email(email).email
+            is_validate = True
+            
+        except EmailNotValidError as e:
+            print(str(e))
 
     return is_validate
 
@@ -51,7 +55,7 @@ def is_validated_phone(phone: str) -> bool:
     Policy
         1. 01012341234 Format
     """
-    return bool(re.search('^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$', phone))
+    return bool(phone) and bool(re.search('^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$', phone))
     
 
 def is_validated_name(name: str) -> bool:
@@ -63,6 +67,9 @@ def is_validated_name(name: str) -> bool:
         2. Only Korean
         2. 2 < length 20
     """
+    if name is None:
+        return False
+
     if len(name) > 0 and len(name) <= 20:
         return bool(re.search('^[가-힣]{2,20}$', name))
     else:
@@ -77,6 +84,10 @@ def is_validated_nickname(nickname: str) -> bool:
         1. letters and digit
         2. 1 < length 20
     """
+
+    if nickname is None:
+        return False
+    
     if len(nickname) > 0 and len(nickname) <= 20:
         return bool(re.search('^[ㄱ-힣a-zA-Z0-9]{1,20}$', nickname))
     else:
