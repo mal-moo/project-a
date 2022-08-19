@@ -5,7 +5,7 @@ from flask_jwt_extended import create_access_token
 
 from config import app
 from config.settings import JWT
-from config.utils import is_validated_phone, make_auth_code, call_sms_submit_api, \
+from common.utils import is_validated_phone, make_auth_code, call_sms_submit_api, \
                         resp_form, err_resp_form
 from .models import *
 
