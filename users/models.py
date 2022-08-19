@@ -55,7 +55,7 @@ def update_user_by_password(user_id: int, password: str) -> tuple[bool, int]:
     return is_success
 
 
-def select_user_cnt_by_id_and_password(user_id: int, password: str) -> tuple[bool, dict]:
+def select_user_id_by_email_and_password(email: str, password: str) -> tuple[bool, dict]:
     is_success = True
     result = {}
     
@@ -63,8 +63,8 @@ def select_user_cnt_by_id_and_password(user_id: int, password: str) -> tuple[boo
         dc = DBConnector()
         conn = dc.connection
         with conn.cursor() as curs:
-            sql = 'SELECT COUNT(user_id) FROM user WHERE user_id = %s and password = SHA2(%s, 256);'
-            curs.execute(sql, (user_id, password,))
+            sql = 'SELECT user_id FROM user WHERE email = %s and password = SHA2(%s, 256);'
+            curs.execute(sql, (email, password,))
             result = curs.fetchone()
     except Exception as e:
         print(e)
