@@ -4,16 +4,16 @@ from config import DBConnector
 CREATE TABLE `auth_phone` (
     `auth_phone_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '인증번호 번호',
     `phone` VARCHAR(12) NOT NULL COMMENT '휴대전화',
-    `auth_number` VARCHAR(4) NOT NULL COMMENT '휴대전화 인증번호 4자리',
+    `auth_code` VARCHAR(4) NOT NULL COMMENT '휴대전화 인증번호 4자리',
     `create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
     PRIMARY KEY (`auth_phone_id`),
     UNIQUE (`phone`)
-)
+);
 """
 
 def insert_auth_code(phone: str, auth_code: int) -> bool:
     """
-        Insert Data in `auth_phone` Table
+        Insert Data in `user` Table
     """
     is_success = True
     

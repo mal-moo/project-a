@@ -20,7 +20,6 @@ def insert_user(email: str, password: str, name: str, nickname: str, phone: str)
     """
         Insert Data in `user` Table
     """
-
     is_success = True
     err_code = 0
     

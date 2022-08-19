@@ -14,7 +14,7 @@ def test_auth_post(client):
 
 
 def test_auth_get(client):
-    resp = client.get('/auth?phone=01012341234&code=2753')
+    resp = client.get('/auth?phone=01012341234&code=3547')
     assert resp.status_code == 200
     assert resp.json['msg'] == 'success'
 
@@ -42,7 +42,7 @@ def test_auth_post_missing_parameter(client):
     assert resp.json.get('msg')
 
 
-def test_auth_get_missing_parameter(clint):
+def test_auth_get_missing_parameter(client):
     resp = client.get('/auth')
     assert resp.status_code == 400
     assert resp.json.get('msg')

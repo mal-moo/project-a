@@ -1,19 +1,23 @@
 from flask import Flask
 import pymysql
 from flask_jwt_extended import JWTManager
-from .settings import DATABASE, JWT
 
 
 app = Flask(__name__)
-app.config.update(
-    DEBUG = True,
-    JWT_SECRET_KEY = JWT['SECRET_KEY']
-)
+app.config['TESTING'] = True
 
+if app.config['TESTING']:
+    from .test_settings import DATABASE, JWT
+    print(' * [TEST MODE]')
+else:
+    from .settings import DATABASE, JWT
+    print(' * [LIVE MODE]')
+
+app.config['JWT_SECRET_KEY'] = JWT['SECRET_KEY']
 
 jwt = JWTManager(app)
 
-
+print(DATABASE)
 class DBConnector:    
     def __init__(self):
         self.host = DATABASE['HOST']
