@@ -26,13 +26,13 @@ def auth_phone() -> tuple[Response, int]:
 
         auth_code = make_auth_code()
         is_suc = insert_auth_code(phone, auth_code)
-        
+
         if not is_suc:
             return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
         if is_suc:
-            success = call_sms_submit_api()
+            success = call_sms_submit_api(phone)
             if success:
-                return resp_form(HTTPStatus.CREATED, '')
+                return resp_form(HTTPStatus.CREATED, {})
             else:
                 return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     

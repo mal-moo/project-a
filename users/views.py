@@ -29,28 +29,23 @@ def user_password() -> tuple[Response, int]:
     if not is_validated_password(password) or not is_validated_email(email):
         return err_resp_form(HTTPStatus.BAD_REQUEST, 'Invalid Paramaters')
 
-    # 기가입자 고객인지 확인
-    is_suc, user_info = select_user_by_email(email)
+    is_suc, user_cnt = select_user_cnt_by_email(email)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
-    if not user_info:
+    if not user_cnt:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
 
-    # 기존 비밀번호랑 같은지 확인
-    is_suc, user_info = select_user_by_email_and_password(email, password)
+    is_suc, user_info = select_user_id_by_email_and_password(email, password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     if user_info:
         return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
     
-    is_suc, err_code = update_user_by_password(email, password)
+    is_suc = update_user_by_password(user_info['user_id'], password)
     if not is_suc:
-        if err_code == 1062:
-            return err_resp_form(HTTPStatus.UNPROCESSABLE_ENTITY, 'Duplicated')
-        else:
-            return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
+        return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
-    return resp_form(HTTPStatus.OK, '')
+    return resp_form(HTTPStatus.OK, {})
 
 
 @app.route('/signup', methods=["POST"])
@@ -85,7 +80,7 @@ def sign_up() -> tuple[Response, int]:
         else:
             return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
 
-    return resp_form(HTTPStatus.CREATED, '')
+    return resp_form(HTTPStatus.CREATED, {})
     
 
 @app.route("/login", methods=['POST'])
@@ -99,7 +94,7 @@ def login() -> tuple[Response, int]:
     if not is_validated_email(email):
         return err_resp_form(HTTPStatus.BAD_REQUEST, 'Invalid Paramaters')
 
-    is_suc, user_info = select_user_by_email_and_password(email, password)
+    is_suc, user_info = select_user_id_by_email_and_password(email, password)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     if not user_info:
@@ -120,13 +115,10 @@ def user_info() -> tuple[Response, int]:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
     
     user_id = jwt_identity['user_id']
-    is_suc, user_info = select_user_by_id(user_id)
+    is_suc, user_info = select_user_info_by_id(user_id)
     if not is_suc:
         return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     if not user_info:
         return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
-
-    user_info.pop('password')
-    user_info.pop('user_id')
     
     return resp_form(HTTPStatus.OK, user_info)

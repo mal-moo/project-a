@@ -17,6 +17,7 @@ CREATE TABLE `user` (
   
 
 def insert_user(email: str, password: str, name: str, nickname: str, phone: str) -> tuple[bool, int]:
+
     is_success = True
     err_code = 0
     
@@ -36,27 +37,25 @@ def insert_user(email: str, password: str, name: str, nickname: str, phone: str)
     return is_success, err_code
 
 
-def update_user_by_password(email: str, password: str) -> tuple[bool, int]:
+def update_user_by_password(user_id: int, password: str) -> tuple[bool, int]:
     is_success = True
-    err_code = 0
     
     try:
         dc = DBConnector()
         conn = dc.connection
         with conn.cursor() as curs:
-            sql = 'UPDATE user SET password = sha2(%s, 256), update_date = CURRENT_TIMESTAMP \
-                    WHERE email = %s;'
-            curs.execute(sql, (password, email,))
+            sql = 'UPDATE user SET password = SHA2(%s, 256), update_date = CURRENT_TIMESTAMP \
+                    WHERE user_id = %s;'
+            curs.execute(sql, (password, user_id,))
         conn.commit()
     except Exception as e:
         print(e)
-        err_code = e.args[0]
         is_success = False
 
-    return is_success, err_code
+    return is_success
 
 
-def select_user_by_email_and_password(email: str, password: str) -> tuple[bool, dict]:
+def select_user_id_by_email_and_password(email: str, password: str) -> tuple[bool, dict]:
     is_success = True
     result = {}
     
@@ -64,7 +63,7 @@ def select_user_by_email_and_password(email: str, password: str) -> tuple[bool, 
         dc = DBConnector()
         conn = dc.connection
         with conn.cursor() as curs:
-            sql = 'SELECT * FROM user WHERE email = %s and password = sha2(%s, 256);'
+            sql = 'SELECT user_id FROM user WHERE email = %s and password = SHA2(%s, 256);'
             curs.execute(sql, (email, password,))
             result = curs.fetchone()
     except Exception as e:
@@ -74,7 +73,7 @@ def select_user_by_email_and_password(email: str, password: str) -> tuple[bool, 
     return is_success, result
   
     
-def select_user_by_id(user_id: int) -> tuple[bool, dict]:
+def select_user_info_by_id(user_id: int) -> tuple[bool, dict]:
     is_success = True
     result = {}
     
@@ -82,7 +81,7 @@ def select_user_by_id(user_id: int) -> tuple[bool, dict]:
         dc = DBConnector()
         conn = dc.connection
         with conn.cursor() as curs:
-            sql = 'SELECT * FROM user WHERE user_id = %s;'
+            sql = 'SELECT name, nickname, phone, email, create_date, update_date FROM user WHERE user_id = %s;'
             curs.execute(sql, user_id)
             result = curs.fetchone()
     except Exception as e:
@@ -92,7 +91,7 @@ def select_user_by_id(user_id: int) -> tuple[bool, dict]:
     return is_success, result
 
 
-def select_user_by_email(email: str) -> tuple[bool, dict]:
+def select_user_cnt_by_email(email: str) -> tuple[bool, dict]:
     is_success = True
     result = {}
     
@@ -100,7 +99,7 @@ def select_user_by_email(email: str) -> tuple[bool, dict]:
         dc = DBConnector()
         conn = dc.connection
         with conn.cursor() as curs:
-            sql = 'SELECT * FROM user WHERE email = %s;'
+            sql = 'SELECT COUNT(user_id) FROM user WHERE email = %s;'
             curs.execute(sql, email)
             result = curs.fetchone()
     except Exception as e:

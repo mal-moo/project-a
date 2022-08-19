@@ -3,13 +3,16 @@ import pymysql
 from flask_jwt_extended import JWTManager
 from .settings import DATABASE, JWT
 
+
 app = Flask(__name__)
 app.config.update(
     DEBUG = True,
     JWT_SECRET_KEY = JWT['SECRET_KEY']
 )
 
+
 jwt = JWTManager(app)
+
 
 class DBConnector:    
     def __init__(self):
