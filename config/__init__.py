@@ -4,13 +4,14 @@ from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
-app.config['TESTING'] = True
+app.config['DEBUG'] = True
+app.config['TESTING'] = True  # When testing test code, Change 'True'
 if app.config['TESTING']:
     from tests.test_settings import DATABASE, JWT
     print(' * [TEST MODE]')
 else:
     from .settings import DATABASE, JWT
-    print(' * [LIVE MODE]')
+    print(' * [DEBUG MODE]')
 app.config['JWT_SECRET_KEY'] = JWT['SECRET_KEY']
 
 

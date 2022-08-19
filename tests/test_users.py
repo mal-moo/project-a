@@ -9,23 +9,6 @@ def client():
     return app.test_client()
 
 
-def test_user_password(client):
-    with app.app_context():
-        access_token = create_access_token({'is_auth': True})
-        headers = {
-            'Authorization': 'Bearer {}'.format(access_token)
-        }
-        resp = client.put('/user/password', 
-                        data={
-                            'email': 'honggildong@gmail.com', 
-                            'password': 'Password{}!'.format(randint(10,99))
-                        }, 
-                        headers=headers
-                    )
-        assert resp.status_code == 200
-        assert resp.json['msg'] == 'success'
-
-
 def test_sign_up(client):
     # Delete existing test user
     dc = DBConnector()
@@ -87,3 +70,19 @@ def test_user(client):
         assert resp.status_code == 200
         assert resp.json['msg'] == 'success'
 
+
+def test_user_password(client):
+    with app.app_context():
+        access_token = create_access_token({'is_auth': True})
+        headers = {
+            'Authorization': 'Bearer {}'.format(access_token)
+        }
+        resp = client.put('/user/password', 
+                        data={
+                            'email': 'honggildong@gmail.com', 
+                            'password': 'Password{}!'.format(randint(10,99))
+                        }, 
+                        headers=headers
+                    )
+        assert resp.status_code == 200
+        assert resp.json['msg'] == 'success'
