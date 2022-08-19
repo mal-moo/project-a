@@ -5,19 +5,18 @@ from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 app.config['TESTING'] = True
-
 if app.config['TESTING']:
     from tests.test_settings import DATABASE, JWT
     print(' * [TEST MODE]')
 else:
     from .settings import DATABASE, JWT
     print(' * [LIVE MODE]')
-
 app.config['JWT_SECRET_KEY'] = JWT['SECRET_KEY']
+
 
 jwt = JWTManager(app)
 
-print(DATABASE)
+
 class DBConnector:    
     def __init__(self):
         self.host = DATABASE['HOST']
@@ -43,6 +42,11 @@ class DBConnector:
     def __del__(self):
         self.connection.close()
         
+
+@app.route('/', methods=['GET'])
+def index() -> str:
+    return 'Hello, Project-a !'
+
 
 import users.views
 import auth.views
