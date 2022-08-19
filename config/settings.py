@@ -1,13 +1,13 @@
 DATABASE = {
     "HOST": "localhost",
-    "NAME": "ably",
+    "NAME": "commerce",
     "PASSWORD": "dp2qmfflWkd!",
-    "USER": "ably_backend",
+    "USER": "commerce_backend",
     "PORT": "3306",
 }
 
 JWT = {
-    "SECRET_KEY": "ably",
+    "SECRET_KEY": "commerce",
     "EXPIRES_IN": {  # minute
         "AUTH": 6,
         "USER": 60 * 24

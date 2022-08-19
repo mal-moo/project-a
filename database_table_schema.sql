@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.29, for macos12.2 (arm64)
 --
--- Host: localhost    Database: test_ably
+-- Host: localhost    Database: test_commerce
 -- ------------------------------------------------------
 -- Server version	8.0.29
 
