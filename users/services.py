@@ -54,4 +54,14 @@ def user_login_service(email, password):
     return resp_form(HTTPStatus.OK, {
         'access_token': access_token
     })
+
+def user_info_service(user_id):
+    is_suc, user_info = select_user_info_by_id(user_id)
+    if not is_suc:
+        return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
+    if not user_info:
+        return err_resp_form(HTTPStatus.FORBIDDEN, 'Forbbiden')
+    
+    return resp_form(HTTPStatus.OK, user_info)
+
     

@@ -14,14 +14,12 @@ def is_validated_password(password: str) -> bool:
     Policy
         1. length greater than 8
         2. one or more upper letters
-        2. one or more lower letters
         3. one or more digits
         4. one or more special characters
     """
     policy = PasswordPolicy.from_names(
                             length=8,
                             uppercase=1,
-                            lowercase=1,
                             numbers=1,
                             special=1,
                         )

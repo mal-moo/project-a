@@ -10,7 +10,7 @@ from common.utils import call_sms_submit_api, err_resp_form, make_auth_code, res
 from config.settings import JWT
 
 
-def auth_code_service(phone):
+def create_auth_code_service(phone):
     auth_code = make_auth_code()
     is_suc = insert_auth_code(phone, auth_code)
 
