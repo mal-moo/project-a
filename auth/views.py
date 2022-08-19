@@ -29,12 +29,12 @@ def auth_phone() -> tuple[Response, int]:
 
         if not is_suc:
             return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
-        if is_suc:
-            success = call_sms_submit_api(phone)
-            if success:
-                return resp_form(HTTPStatus.CREATED, {})
-            else:
-                return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
+        
+        success = call_sms_submit_api(phone)
+        if success:
+            return resp_form(HTTPStatus.CREATED, {})
+        else:
+            return err_resp_form(HTTPStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error')
     
     elif request.method == 'GET':
         try:
@@ -52,12 +52,11 @@ def auth_phone() -> tuple[Response, int]:
         if not auth_info:
             return err_resp_form(HTTPStatus.UNAUTHORIZED, 'Unauthorized')
         
-        if is_suc:
-            if (datetime.now() - auth_info['create_date']).total_seconds() < 300:
-                access_token = create_access_token(identity = {'is_auth': True},
-                                                expires_delta = timedelta(minutes=JWT['EXPIRES_IN']['AUTH']))
-                return resp_form(HTTPStatus.CREATED, {
-                    'access_token': access_token
-                })
-            else:
-                return err_resp_form(HTTPStatus.UNAUTHORIZED, 'Authcode has been revoked')
+        if (datetime.now() - auth_info['create_date']).total_seconds() < 300:
+            access_token = create_access_token(identity = {'is_auth': True},
+                                            expires_delta = timedelta(minutes=JWT['EXPIRES_IN']['AUTH']))
+            return resp_form(HTTPStatus.CREATED, {
+                'access_token': access_token
+            })
+        else:
+            return err_resp_form(HTTPStatus.UNAUTHORIZED, 'Authcode has been revoked')
