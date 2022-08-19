@@ -24,11 +24,10 @@ DROP TABLE IF EXISTS `auth_phone`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_phone` (
   `auth_phone_id` bigint NOT NULL AUTO_INCREMENT COMMENT '인증번호 번호',
-  `phone` varchar(12) NOT NULL COMMENT '휴대전화',
+  `phone` varchar(12) NOT NULL UNIQUE COMMENT '휴대전화',
   `auth_code` varchar(4) NOT NULL COMMENT '휴대전화 인증번호 4자리',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
-  PRIMARY KEY (`auth_phone_id`),
-  UNIQUE KEY (`phone`)
+  PRIMARY KEY (`auth_phone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,14 +50,13 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '유저 번호',
   `name` varchar(20) NOT NULL COMMENT '이름',
-  `nickname` varchar(20) NOT NULL COMMENT '닉네임',
+  `nickname` varchar(20) NOT NULL UNIQUE COMMENT '닉네임',
   `phone` varchar(12) NOT NULL COMMENT '휴대전화',
-  `email` varchar(50) NOT NULL COMMENT '이메일',
+  `email` varchar(50) NOT NULL UNIQUE COMMENT '이메일',
   `password` varchar(256) NOT NULL COMMENT '비밀번호',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY (`email`,`nickname`)
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
