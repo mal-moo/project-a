@@ -1,6 +1,7 @@
+from random import randint
 import pytest
 from flask_jwt_extended import create_access_token
-from config import app
+from config import DBConnector, app
 
 
 @pytest.fixture
@@ -16,8 +17,8 @@ def test_user_password(client):
         }
         resp = client.put('/user/password', 
                         data={
-                            'email': 'malmoo3@gmail.com', 
-                            'password': 'Rhdwldms2!1'
+                            'email': 'honggildong@gmail.com', 
+                            'password': 'Password{}!'.format(randint(10,99))
                         }, 
                         headers=headers
                     )
@@ -26,6 +27,14 @@ def test_user_password(client):
 
 
 def test_sign_up(client):
+    # Delete existing test user
+    dc = DBConnector()
+    conn = dc.connection
+    with conn.cursor() as curs:
+        sql = 'DELETE FROM user WHERE name = %s;'
+        curs.execute(sql, ('홍길동',))
+    conn.commit()
+
     with app.app_context():
         access_token = create_access_token({'is_auth': True})
         headers = {
@@ -60,8 +69,16 @@ def test_login(client):
 
 
 def test_user(client):
-     with app.app_context():
-        access_token = create_access_token({'user_id': 1})
+    # select user_id existing test user
+    dc = DBConnector()
+    conn = dc.connection
+    with conn.cursor() as curs:
+        sql = 'SELECT user_id FROM user WHERE name = %s;'
+        curs.execute(sql, ('홍길동',))
+        result = curs.fetchone()
+
+    with app.app_context():
+        access_token = create_access_token({'user_id': result['user_id']})
         headers = {
             'Authorization': 'Bearer {}'.format(access_token)
         }

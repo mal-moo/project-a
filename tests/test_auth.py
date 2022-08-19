@@ -1,5 +1,5 @@
 import pytest
-from config import app
+from config import DBConnector, app
 
 
 @pytest.fixture
@@ -14,7 +14,16 @@ def test_auth_post(client):
 
 
 def test_auth_get(client):
-    resp = client.get('/auth?phone=01012341234&code=3547')
+    # select auth code from db
+    dc = DBConnector()
+    conn = dc.connection
+    with conn.cursor() as curs:
+        sql = 'SELECT auth_code FROM auth_phone WHERE phone = %s;'
+        curs.execute(sql, ('01012341234',))
+        result = curs.fetchone()
+        print(result)
+
+    resp = client.get('/auth?phone=01012341234&code={}'.format(result['auth_code']))
     assert resp.status_code == 200
     assert resp.json['msg'] == 'success'
 

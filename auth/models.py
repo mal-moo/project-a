@@ -1,15 +1,6 @@
+import traceback
 from config import DBConnector
 
-"""
-CREATE TABLE `auth_phone` (
-    `auth_phone_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '인증번호 번호',
-    `phone` VARCHAR(12) NOT NULL COMMENT '휴대전화',
-    `auth_code` VARCHAR(4) NOT NULL COMMENT '휴대전화 인증번호 4자리',
-    `create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록 일시',
-    PRIMARY KEY (`auth_phone_id`),
-    UNIQUE (`phone`)
-);
-"""
 
 def insert_auth_code(phone: str, auth_code: int) -> bool:
     """
@@ -25,8 +16,8 @@ def insert_auth_code(phone: str, auth_code: int) -> bool:
                     ON DUPLICATE KEY UPDATE auth_code = %s, create_date = CURRENT_TIMESTAMP;'
             curs.execute(sql, (phone, auth_code, auth_code,))
         conn.commit()
-    except Exception as e:
-        print(e)
+    except Exception:
+        print(traceback.format_exc())
         is_success = False
 
     return is_success
@@ -46,8 +37,8 @@ def select_auth_code(phone: str, auth_code: int) -> tuple[bool, dict]:
             sql = 'SELECT create_date FROM auth_phone WHERE phone = %s AND auth_code = %s;'
             curs.execute(sql, (phone, auth_code,))
             result = curs.fetchone()
-    except Exception as e:
-        print(e)
+    except Exception:
+        print(traceback.format_exc())
         is_success = False
 
     return is_success, result
