@@ -53,11 +53,6 @@ MacOS 12.2 (arm64)
 Hello, Project-a !
 ```
 ### Test Code 실행 방법
-1. 'TESTING' Mode로 변경하여 Run
-```
-% python run.py test
-```
-2. Test Code 실행
 ```
 % pytest tests/*
 ```
