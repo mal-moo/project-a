@@ -8,7 +8,7 @@ DATABASE = {
 
 JWT = {
     "SECRET_KEY": "ably",
-    "EXPIRES_IN": {
+    "EXPIRES_IN": { # minute
         "AUTH": 6,
         "USER": 60 * 24
     }
