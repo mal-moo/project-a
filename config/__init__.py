@@ -1,11 +1,14 @@
-from flask import Flask
+import sys
 import pymysql
+from flask import Flask
 from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['TESTING'] = True  # When testing test code, Change 'True'
+
+if len(sys.argv) > 1 and sys.argv[1].lower() == 'test':
+    app.config['TESTING'] = True
 if app.config['TESTING']:
     from tests.test_settings import DATABASE, JWT
     print(' * [TEST MODE]')

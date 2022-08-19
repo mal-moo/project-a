@@ -47,8 +47,17 @@ MacOS 12.2 (arm64)
 ```
 % python run.py
 ```
-6. Test API with cURL
+6. Running on localhost:6000
 ```
 % curl localhost:6000/
 Hello, Project-a !
+```
+### Test Code 실행 방법
+1. 'TESTING' Mode로 변경하여 Run
+```
+% python run.py test
+```
+2. Test Code 실행
+```
+% pytest tests/*
 ```
